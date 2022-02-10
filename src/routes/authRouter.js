@@ -4,7 +4,6 @@ import validateSignUpSchema from '../middlewares/validateSignUpSchemaMiddleware.
 
 const authRouter = express.Router();
 
-
 authRouter.post('/sign-up', validateSignUpSchema, signUp);
 
 export default authRouter;

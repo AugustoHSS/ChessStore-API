@@ -21,4 +21,3 @@ export async function signUp(request, response) {
     response.sendStatus(500);
   }
 }
-
