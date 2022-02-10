@@ -1,9 +1,10 @@
-import express from 'express'
-import { homeProducts, sendProduct } from '../controllers/productsController.js'
+import express from 'express';
+import authRouter from './authRouter.js';
+import { homeProducts, sendProduct } from '../controllers/productsController.js';
 
-const router = express.Router()
+const router = express.Router();
+router.use(authRouter);
+router.get('/home', homeProducts);
+router.get('/home/:productId', sendProduct);
 
-router.get('/home', homeProducts)
-router.get('/home/:productId', sendProduct)
-
-export default router
+export default router;
