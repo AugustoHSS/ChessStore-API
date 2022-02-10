@@ -1,5 +1,9 @@
-import express from 'express';
+import express from 'express'
+import { homeProducts, sendProduct } from '../controllers/productsController.js'
 
-const router = express.Router();
+const router = express.Router()
 
-export default router;
+router.get('/home', homeProducts)
+router.get('/home/:productId', sendProduct)
+
+export default router
