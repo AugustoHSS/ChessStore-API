@@ -22,3 +22,23 @@ export async function signUp(request, response) {
   }
 }
 
+export async function signIn(request, response) {
+  const { email, password } = request.body;
+
+  try {
+    const user = await db.collection('users').findOne({ email });
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const token = uuid();
+      await db.collection('sessions').insertOne({
+        token,
+        userId: user._id,
+      });
+      delete user.password;
+      response.status(200).send({ ...user, token });
+    } else {
+      response.status(401).send('email ou senha invalidos');
+    }
+  } catch {
+    response.sendStatus(500);
+  }
+}
