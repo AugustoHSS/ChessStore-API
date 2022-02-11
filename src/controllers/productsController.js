@@ -1,29 +1,42 @@
-import { ObjectId } from 'mongodb';
-import db from '../db.js';
+import { ObjectId } from 'mongodb'
+import db from '../db.js'
 
 async function homeProducts(req, res) {
-  const products = await db.collection('products').find({}).toArray();
-  res.status(200).send(products);
+  const token = req.headers.authorization?.replace('Bearer ', '')
+
+  try {
+    const session = await db.collection('sessions').findOne({ token })
+
+    const products = await db.collection('products').find({}).toArray()
+    if (!session) {
+      res.status(401).send(products)
+      return
+    }
+    res.status(200).send(products)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
 }
 
 async function sendProduct(req, res) {
-  const { productId } = req.params;
+  const { productId } = req.params
 
   try {
     const productData = await db
       .collection('products')
-      .findOne({ _id: new ObjectId(productId) });
+      .findOne({ _id: new ObjectId(productId) })
 
     if (!productData) {
-      res.sendStatus(404);
-      return;
+      res.sendStatus(404)
+      return
     }
 
-    res.status(200).send(productData);
+    res.status(200).send(productData)
   } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
+    console.log(error)
+    res.sendStatus(500)
   }
 }
 
-export { homeProducts, sendProduct };
+export { homeProducts, sendProduct }
