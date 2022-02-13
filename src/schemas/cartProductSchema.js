@@ -1,9 +1,9 @@
-import joi from 'joi';
+import joi from 'joi'
 
 const cartProductSchema = joi.object({
-    productId: joi.string().required(),
-    name: joi.string().required(),
-    image: joi.string().required(),
-    value: joi.number().required()
-});
-export default cartProductSchema;
+  productId: joi.string().required(),
+  name: joi.string().required(),
+  image: joi.string().required(),
+  price: joi.number().required(),
+})
+export default cartProductSchema
