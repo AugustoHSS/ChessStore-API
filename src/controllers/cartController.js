@@ -23,8 +23,15 @@ export async function getCart(request, response) {
 
 export async function deleteProduct(request, response) {
     const { user } = response.locals;
+    const { productId } = request.params;
     try {
-        console.log(user)
+        const product = await db.collection('cart').findOne({ _id: new ObjectId(productId) });
+        if (!product) {
+            response.sendStatus(404);
+            return;
+        }
+        await db.collection('cart').deleteOne({ $and: [{ _id: new ObjectId(productId) }, { userId: user._id }] });
+        response.sendStatus(200);
     } catch {
         response.sendStatus(500);
     }
