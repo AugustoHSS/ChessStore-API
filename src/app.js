@@ -1,10 +1,15 @@
-import express from 'express';
-import cors from 'cors';
-import router from './routes/index.js';
+import express from 'express'
+import cors from 'cors'
+import router from './routes/index.js'
+import dotenv from 'dotenv'
 
-const server = express();
-server.use(express.json());
-server.use(cors());
-server.use(router);
+dotenv.config()
 
-server.listen(5000, () => console.log('Running at http://localhost:5000'));
+const server = express()
+server.use(express.json())
+server.use(cors())
+server.use(router)
+
+server.listen(process.env.PORT, () =>
+  console.log('Running at http://localhost:5000')
+)
